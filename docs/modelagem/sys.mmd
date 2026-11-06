@@ -1,0 +1,9 @@
+erDiagram
+    CORE_USUARIOS_PENDENTE ||--o{ USUARIOS_PERFIS : "FK a integrar"
+    PERFIS ||--o{ USUARIOS_PERFIS : possui
+    PERFIS ||--o{ PERFIS_PERMISSOES : recebe
+    PERMISSOES ||--o{ PERFIS_PERMISSOES : concede
+    CORE_USUARIOS_PENDENTE ||--o{ SESSOES : "FK a integrar"
+    SESSOES ||--o{ LOG_ACESSOS : registra
+    PARAMETRIZACOES { bigint id PK }
+    AUDITORIAS { bigint id PK }

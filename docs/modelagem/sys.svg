@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="790" viewBox="0 0 1100 790">
+<defs><marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#477781"/></marker></defs>
+<rect width="1100" height="790" fill="#f3f6f7"/>
+<text x="36" y="48" font-family="sans-serif" font-size="26" font-weight="700" fill="#142f38">SYS | Segurança, acesso e administração</text>
+<path d="M256,145 C338.0,145 338.0,145 420,145" fill="none" stroke="#477781" stroke-width="1.6" marker-end="url(#arrow)" stroke-dasharray="6 4"/>
+<path d="M914,170 C722.0,170 722.0,100 530,100" fill="none" stroke="#477781" stroke-width="1.6" marker-end="url(#arrow)" />
+<path d="M914,170 C722.0,170 722.0,310 530,310" fill="none" stroke="#477781" stroke-width="1.6" marker-end="url(#arrow)" />
+<path d="M914,380 C722.0,380 722.0,310 530,310" fill="none" stroke="#477781" stroke-width="1.6" marker-end="url(#arrow)" />
+<path d="M146,170 C146.0,170 146.0,310 146,310" fill="none" stroke="#477781" stroke-width="1.6" marker-end="url(#arrow)" stroke-dasharray="6 4"/>
+<path d="M146,400 C146.0,400 146.0,510 146,510" fill="none" stroke="#477781" stroke-width="1.6" marker-end="url(#arrow)" />
+<rect x="36" y="100" width="220" height="88" rx="8" fill="white" stroke="#aec5ca"/>
+<path d="M44,100 H248 Q256,100 256,108 V135 H36 V108 Q36,100 44,100" fill="#204c57"/>
+<text x="48" y="123" font-family="sans-serif" font-size="13" fill="white" font-weight="700">core.usuarios — PENDENTE</text>
+<text x="48" y="156" font-family="monospace" font-size="12" fill="#26434e">Cadastro da Pessoa A</text>
+<text x="48" y="176" font-family="monospace" font-size="12" fill="#26434e">FK ainda não aplicada</text>
+<rect x="420" y="100" width="220" height="108" rx="8" fill="white" stroke="#aec5ca"/>
+<path d="M428,100 H632 Q640,100 640,108 V135 H420 V108 Q420,100 428,100" fill="#204c57"/>
+<text x="432" y="123" font-family="sans-serif" font-size="13" fill="white" font-weight="700">sys.usuarios_perfis</text>
+<text x="432" y="156" font-family="monospace" font-size="12" fill="#26434e">id PK</text>
+<text x="432" y="176" font-family="monospace" font-size="12" fill="#26434e">usuario_id (core pendente)</text>
+<text x="432" y="196" font-family="monospace" font-size="12" fill="#26434e">perfil_id FK</text>
+<rect x="804" y="100" width="220" height="88" rx="8" fill="white" stroke="#aec5ca"/>
+<path d="M812,100 H1016 Q1024,100 1024,108 V135 H804 V108 Q804,100 812,100" fill="#204c57"/>
+<text x="816" y="123" font-family="sans-serif" font-size="13" fill="white" font-weight="700">sys.perfis</text>
+<text x="816" y="156" font-family="monospace" font-size="12" fill="#26434e">id PK</text>
+<text x="816" y="176" font-family="monospace" font-size="12" fill="#26434e">nome UNIQUE</text>
+<rect x="36" y="310" width="220" height="108" rx="8" fill="white" stroke="#aec5ca"/>
+<path d="M44,310 H248 Q256,310 256,318 V345 H36 V318 Q36,310 44,310" fill="#204c57"/>
+<text x="48" y="333" font-family="sans-serif" font-size="13" fill="white" font-weight="700">sys.sessoes</text>
+<text x="48" y="366" font-family="monospace" font-size="12" fill="#26434e">id PK · usuario_id</text>
+<text x="48" y="386" font-family="monospace" font-size="12" fill="#26434e">jti UNIQUE</text>
+<text x="48" y="406" font-family="monospace" font-size="12" fill="#26434e">expira_em · revogada_em</text>
+<rect x="36" y="510" width="220" height="88" rx="8" fill="white" stroke="#aec5ca"/>
+<path d="M44,510 H248 Q256,510 256,518 V545 H36 V518 Q36,510 44,510" fill="#204c57"/>
+<text x="48" y="533" font-family="sans-serif" font-size="13" fill="white" font-weight="700">sys.log_acessos</text>
+<text x="48" y="566" font-family="monospace" font-size="12" fill="#26434e">id PK · sessao_id FK</text>
+<text x="48" y="586" font-family="monospace" font-size="12" fill="#26434e">usuario_id · evento</text>
+<rect x="420" y="310" width="220" height="108" rx="8" fill="white" stroke="#aec5ca"/>
+<path d="M428,310 H632 Q640,310 640,318 V345 H420 V318 Q420,310 428,310" fill="#204c57"/>
+<text x="432" y="333" font-family="sans-serif" font-size="13" fill="white" font-weight="700">sys.perfis_permissoes</text>
+<text x="432" y="366" font-family="monospace" font-size="12" fill="#26434e">id PK</text>
+<text x="432" y="386" font-family="monospace" font-size="12" fill="#26434e">perfil_id FK</text>
+<text x="432" y="406" font-family="monospace" font-size="12" fill="#26434e">permissao_id FK</text>
+<rect x="804" y="310" width="220" height="88" rx="8" fill="white" stroke="#aec5ca"/>
+<path d="M812,310 H1016 Q1024,310 1024,318 V345 H804 V318 Q804,310 812,310" fill="#204c57"/>
+<text x="816" y="333" font-family="sans-serif" font-size="13" fill="white" font-weight="700">sys.permissoes</text>
+<text x="816" y="366" font-family="monospace" font-size="12" fill="#26434e">id PK</text>
+<text x="816" y="386" font-family="monospace" font-size="12" fill="#26434e">codigo UNIQUE</text>
+<rect x="420" y="510" width="220" height="88" rx="8" fill="white" stroke="#aec5ca"/>
+<path d="M428,510 H632 Q640,510 640,518 V545 H420 V518 Q420,510 428,510" fill="#204c57"/>
+<text x="432" y="533" font-family="sans-serif" font-size="13" fill="white" font-weight="700">sys.parametrizacoes</text>
+<text x="432" y="566" font-family="monospace" font-size="12" fill="#26434e">id PK · chave UNIQUE</text>
+<text x="432" y="586" font-family="monospace" font-size="12" fill="#26434e">valor JSONB</text>
+<rect x="804" y="510" width="220" height="108" rx="8" fill="white" stroke="#aec5ca"/>
+<path d="M812,510 H1016 Q1024,510 1024,518 V545 H804 V518 Q804,510 812,510" fill="#204c57"/>
+<text x="816" y="533" font-family="sans-serif" font-size="13" fill="white" font-weight="700">sys.auditorias</text>
+<text x="816" y="566" font-family="monospace" font-size="12" fill="#26434e">id PK · registro_id</text>
+<text x="816" y="586" font-family="monospace" font-size="12" fill="#26434e">tabela · operação</text>
+<text x="816" y="606" font-family="monospace" font-size="12" fill="#26434e">antes · depois · ator</text>
+<text x="36" y="735" font-family="sans-serif" font-size="13" fill="#536e78">Linhas tracejadas: dependência do cadastro real de A. Demais linhas: relacionamentos implementados.</text>
+<text x="36" y="757" font-family="sans-serif" font-size="13" fill="#536e78">Campos comuns e definição integral: db/migrations/V40 e V41.</text>
+</svg>

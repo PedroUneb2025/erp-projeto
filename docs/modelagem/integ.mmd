@@ -1,0 +1,6 @@
+erDiagram
+    EVENTOS ||--o{ LOG_CHAMADAS : tentativas
+    EVENTOS { bigint id PK text canal text chave text direcao jsonb payload text estado }
+    LOG_CHAMADAS { bigint id PK bigint evento_id FK int tentativa int http_status }
+    BLOCOS { bigint id PK text anterior text hash jsonb dados }
+    RESUMOS_SENSORES { bigint id PK text sensor text metrica text unidade timestamptz hora }

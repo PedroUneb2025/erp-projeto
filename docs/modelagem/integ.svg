@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="650" viewBox="0 0 1100 650">
+<defs><marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#477781"/></marker></defs>
+<rect width="1100" height="650" fill="#f3f6f7"/>
+<text x="36" y="48" font-family="sans-serif" font-size="26" font-weight="700" fill="#142f38">INTEG | Eventos, chamadas, sensores e integridade</text>
+<path d="M270,175 C350.0,175 350.0,175 430,175" fill="none" stroke="#477781" stroke-width="1.6" marker-end="url(#arrow)" />
+<rect x="50" y="130" width="220" height="128" rx="8" fill="white" stroke="#aec5ca"/>
+<path d="M58,130 H262 Q270,130 270,138 V165 H50 V138 Q50,130 58,130" fill="#204c57"/>
+<text x="62" y="153" font-family="sans-serif" font-size="13" fill="white" font-weight="700">integ.eventos</text>
+<text x="62" y="186" font-family="monospace" font-size="12" fill="#26434e">id PK</text>
+<text x="62" y="206" font-family="monospace" font-size="12" fill="#26434e">canal · chave · direção</text>
+<text x="62" y="226" font-family="monospace" font-size="12" fill="#26434e">payload JSONB</text>
+<text x="62" y="246" font-family="monospace" font-size="12" fill="#26434e">estado · tentativas</text>
+<rect x="430" y="130" width="220" height="108" rx="8" fill="white" stroke="#aec5ca"/>
+<path d="M438,130 H642 Q650,130 650,138 V165 H430 V138 Q430,130 438,130" fill="#204c57"/>
+<text x="442" y="153" font-family="sans-serif" font-size="13" fill="white" font-weight="700">integ.log_chamadas</text>
+<text x="442" y="186" font-family="monospace" font-size="12" fill="#26434e">id PK · evento_id FK</text>
+<text x="442" y="206" font-family="monospace" font-size="12" fill="#26434e">tentativa · http_status</text>
+<text x="442" y="226" font-family="monospace" font-size="12" fill="#26434e">erro · duracao_ms</text>
+<rect x="50" y="400" width="220" height="108" rx="8" fill="white" stroke="#aec5ca"/>
+<path d="M58,400 H262 Q270,400 270,408 V435 H50 V408 Q50,400 58,400" fill="#204c57"/>
+<text x="62" y="423" font-family="sans-serif" font-size="13" fill="white" font-weight="700">integ.blocos</text>
+<text x="62" y="456" font-family="monospace" font-size="12" fill="#26434e">id PK</text>
+<text x="62" y="476" font-family="monospace" font-size="12" fill="#26434e">anterior · hash UNIQUE</text>
+<text x="62" y="496" font-family="monospace" font-size="12" fill="#26434e">dados JSONB</text>
+<rect x="430" y="400" width="220" height="108" rx="8" fill="white" stroke="#aec5ca"/>
+<path d="M438,400 H642 Q650,400 650,408 V435 H430 V408 Q430,400 438,400" fill="#204c57"/>
+<text x="442" y="423" font-family="sans-serif" font-size="13" fill="white" font-weight="700">integ.resumos_sensores</text>
+<text x="442" y="456" font-family="monospace" font-size="12" fill="#26434e">id PK</text>
+<text x="442" y="476" font-family="monospace" font-size="12" fill="#26434e">sensor · métrica · unidade</text>
+<text x="442" y="496" font-family="monospace" font-size="12" fill="#26434e">hora · média · min · max</text>
+<text x="36" y="595" font-family="sans-serif" font-size="13" fill="#536e78">Blocos: encadeamento por hash, sem FK para o bloco anterior; não é blockchain distribuída.</text>
+<text x="36" y="617" font-family="sans-serif" font-size="13" fill="#536e78">Leituras brutas ficam no MongoDB; PostgreSQL recebe agregados horários reais.</text>
+</svg>

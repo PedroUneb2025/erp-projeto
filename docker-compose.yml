@@ -1,0 +1,84 @@
+name: erp-pessoa-d
+services:
+  postgres:
+    image: postgres:16
+    command: ["postgres", "-c", "shared_preload_libraries=pg_stat_statements"]
+    environment:
+      POSTGRES_USER: erp_migrator
+      POSTGRES_DB: erp
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Execute Iniciar.ps1 ou scripts/configurar.py}
+      APP_DB_PASSWORD: ${APP_DB_PASSWORD:?Configure .env}
+      BI_DB_PASSWORD: ${BI_DB_PASSWORD:?Configure .env}
+      METABASE_DB_PASSWORD: ${METABASE_DB_PASSWORD:?Configure .env}
+    ports: ["127.0.0.1:5432:5432"]
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./db/init:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U erp_migrator -d erp"]
+      interval: 5s
+      retries: 20
+  flyway:
+    image: flyway/flyway:10.20.1
+    command: ["-connectRetries=60", "migrate"]
+    environment:
+      FLYWAY_URL: jdbc:postgresql://postgres:5432/erp
+      FLYWAY_USER: erp_migrator
+      FLYWAY_PASSWORD: ${POSTGRES_PASSWORD}
+      FLYWAY_VALIDATE_ON_MIGRATE: "true"
+      FLYWAY_CLEAN_DISABLED: "true"
+    volumes: ["./db/migrations:/flyway/sql:ro"]
+    depends_on:
+      postgres: {condition: service_healthy}
+  mongo:
+    image: mongo:7.0
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: erp_iot
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PASSWORD:?Configure .env}
+    volumes: ["mongo_data:/data/db"]
+    healthcheck:
+      test: ["CMD", "mongosh", "--quiet", "--eval", "db.adminCommand('ping').ok"]
+      interval: 10s
+      retries: 20
+  api:
+    build: ./backend
+    environment: &app_env
+      DATABASE_URL: postgresql://erp_app:${APP_DB_PASSWORD}@postgres:5432/erp
+      JWT_SECRET: ${JWT_SECRET:?Configure .env}
+      MONGO_URL: mongodb://erp_iot:${MONGO_PASSWORD}@mongo:27017/erp?authSource=admin
+      CONNECTORS_JSON: ${CONNECTORS_JSON}
+      WEBHOOK_SECRETS_JSON: ${WEBHOOK_SECRETS_JSON}
+    depends_on:
+      flyway: {condition: service_completed_successfully}
+      mongo: {condition: service_healthy}
+    ports: ["127.0.0.1:8000:8000"]
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/health')"]
+      interval: 10s
+      retries: 15
+  worker:
+    build: ./backend
+    command: ["python", "-m", "app.worker"]
+    environment: *app_env
+    depends_on:
+      api: {condition: service_healthy}
+  frontend:
+    build: ./frontend
+    ports: ["127.0.0.1:5173:80"]
+    depends_on:
+      api: {condition: service_healthy}
+  metabase:
+    image: metabase/metabase:v0.51.6
+    environment:
+      MB_DB_TYPE: postgres
+      MB_DB_DBNAME: metabase
+      MB_DB_PORT: 5432
+      MB_DB_USER: metabase
+      MB_DB_PASS: ${METABASE_DB_PASSWORD}
+      MB_DB_HOST: postgres
+    ports: ["127.0.0.1:3000:3000"]
+    depends_on:
+      flyway: {condition: service_completed_successfully}
+volumes:
+  postgres_data:
+  mongo_data:

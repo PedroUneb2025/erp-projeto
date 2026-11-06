@@ -1,0 +1,67 @@
+name: Pessoa D - migracoes e testes
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  migracoes-imutaveis:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - run: python scripts/verificar_migracoes.py "$BASE_SHA"
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+
+  testes:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        modulo: [sys, integ, dw]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Segredos efemeros de teste
+        run: |
+          echo "TEST_DB_PASSWORD=$(openssl rand -hex 24)" >> "$GITHUB_ENV"
+          echo "TEST_JWT_SECRET=$(openssl rand -hex 32)" >> "$GITHUB_ENV"
+
+      - name: Migracoes e testes por modulo
+        run: docker compose -f docker-compose.test.yml run --build --rm tests pytest -q -m "$MODULO"
+        env:
+          MODULO: ${{ matrix.modulo }}
+
+      - name: Validar checksums aplicados
+        run: docker compose -f docker-compose.test.yml run --rm flyway validate
+
+      - name: Limpar ambiente efemero
+        if: always()
+        run: docker compose -f docker-compose.test.yml down -v
+
+  frontend:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: frontend
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+
+      - run: npm ci
+      - run: npm run build

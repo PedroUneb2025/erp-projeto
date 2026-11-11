@@ -62,8 +62,17 @@ test('cria pedido de venda e o total é recalculado pelo trigger', async () => {
 });
 
 test('fatura o pedido: procedure completa roda pelo endpoint', async () => {
-  const peds = await (await fetch(`${BASE}/api/sd/pedido-venda`, { headers: H() })).json();
-  const ped = peds.find(p => p.status === 'APROVADO');
+  // cria um pedido próprio e determinístico para faturar
+  const ped = await (await fetch(`${BASE}/api/sd/pedido-venda`, {
+    method: 'POST', headers: H(), body: JSON.stringify({ cliente_id: 1 }),
+  })).json();
+  await fetch(`${BASE}/api/sd/pedido-venda/${ped.id}/itens`, {
+    method: 'POST', headers: H(),
+    body: JSON.stringify({ material_id: 3, quantidade: 2, preco_unit: 359.90 }),
+  });
+  await fetch(`${BASE}/api/sd/pedido-venda/${ped.id}`, {
+    method: 'PUT', headers: H(), body: JSON.stringify({ status: 'APROVADO' }),
+  });
   const res = await fetch(`${BASE}/api/sd/pedido-venda/${ped.id}/faturar`, {
     method: 'POST', headers: H(), body: JSON.stringify({}) });
   const body = await res.json();

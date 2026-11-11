@@ -117,8 +117,26 @@ Replicação *streaming* (primário + réplica), `pg_basebackup` + WAL archiving
 
 Gestão no Jira/Azure DevOps com cada requisito ligado a *issue*, *commit* e migração.
 
+## 10b. Implementações de requisitos avançados (V5)
+- **Obrigações acessórias:** `fi.fn_gerar_sped_efd` e `rh.fn_gerar_esocial`
+  geram os arquivos (layout didático) a partir dos dados reais;
+  `fi.sp_registrar_entrega` marca a entrega. Endpoints: `/api/adv/sped-efd`,
+  `/api/adv/esocial`.
+- **IA/ML:** `pp.fn_previsao_demanda` — regressão linear (REGR_SLOPE) sobre
+  12 meses de vendas por material, com rótulo de tendência
+  (ALTA/QUEDA/ESTÁVEL); `pp.sp_gerar_mrp` grava o resultado em `pp.mrp`
+  (`demanda_gerada_por_ia`). Endpoint: `/api/adv/previsao-demanda`.
+- **Detecção de fraude:** views `grc.vw_suspeitas_auditoria` (alterações
+  financeiras fora do horário comercial, deletes em vendas) e
+  `grc.vw_suspeitas_valor` (notas outliers por cliente). Endpoints:
+  `/api/adv/fraude/*`.
+- **Exportação ELK/BI:** `sys.fn_auditoria_json` devolve a auditoria em JSON
+  por evento, pronto para o ingest do Logstash/Splunk HEC
+  (`/api/adv/auditoria/json`); CSV de qualquer view BI para Power BI/Metabase
+  (`/api/adv/bi/<view>.csv`).
+
 ## 11. Tecnologias emergentes e roadmap
-- **IA/ML:** previsão de demanda a partir de `bi.vw_vendas_mensais` (Python/R); detecção de fraude sobre `log_auditoria`.
+- **IA/ML:** previsão de demanda implementada em SQL (`pp.fn_previsao_demanda`); detecção de fraude em `grc.vw_suspeitas_*`.
 - **IoT:** sensores gravam em `api.leitura_iot` (processamento na borda, envio em lote).
 - **Blockchain:** hash do contrato em `sd.contrato.hash_blockchain`.
 - **Roadmap:** T1 núcleo FI/MM/SD → T2 RH/PP/QM → T3 PS/SM/AM/GRC → T4 BI/ML/IoT. Revisão trimestral de performance (`EXPLAIN ANALYZE`, `pg_stat_statements`).

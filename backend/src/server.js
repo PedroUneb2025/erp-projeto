@@ -27,6 +27,7 @@ app.use('/api/am',         authN, require('./modules/am.routes'));
 app.use('/api/grc',        authN, require('./modules/grc.routes'));
 app.use('/api/api',        authN, require('./modules/api.routes'));
 app.use('/api/bi',         authN, require('./modules/bi.routes'));
+app.use('/api/adv',        authN, require('./modules/adv.routes'));
 
 // Healthcheck para Render/monitoramento
 app.get('/health', async (_req, res) => {

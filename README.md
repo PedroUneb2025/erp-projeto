@@ -69,6 +69,13 @@ docs/              Documentação do projeto, deploy, arquitetura
 GitHub Actions sobe um PostgreSQL real, aplica as migrações, roda os
 testes de API (mocha) e publica automaticamente no Render em `main`.
 
+## Recursos avançados (V5)
+- SPED EFD e eSocial gerados a partir dos dados reais (`fi.fn_gerar_sped_efd`, `rh.fn_gerar_esocial`)
+- Previsão de demanda com IA (regressão) gravada no MRP (`pp.fn_previsao_demanda`)
+- Detecção de fraude (views de suspeitas no GRC)
+- Auditoria exportável em JSON para ELK/Splunk e CSV de BI para Power BI
+- Tudo exposto na API em `/api/adv/*` (ver Swagger)
+
 ## Requisitos e rastreabilidade
 Ver matriz em [`docs/documentacao_erp.md`](docs/documentacao_erp.md) (RF01–RF07, RNF01–RNF02).
 

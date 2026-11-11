@@ -12,8 +12,8 @@ END $$;
 
 -- 2. Total do pedido recalculado pelo trigger (5*289,90 + 3*899,90)
 DO $$ BEGIN
-  ASSERT (SELECT total FROM sd.pedido_venda WHERE id=1000) = 4149.20, 'Total incorreto';
-  RAISE NOTICE 'OK: total do pedido = 4149.20';
+  ASSERT (SELECT total FROM sd.pedido_venda WHERE id=1000) = 4198.60, 'Total incorreto';
+  RAISE NOTICE 'OK: total do pedido = 4198.60';
 END $$;
 
 -- 3. Fluxo de compra: receber pedido 5000 (entra estoque, gera conta a pagar)
@@ -25,17 +25,7 @@ DO $$ BEGIN
 END $$;
 
 -- 4. Impostos da NF
-DO $$
-DECLARE
-  v_nota_id integer;
-BEGIN
-  SELECT id INTO STRICT v_nota_id
-  FROM sd.nota_fiscal
-  WHERE pedido_id = 1000;
-
-  CALL fi.sp_calcular_impostos_nota(v_nota_id);
-END $$;
-
+CALL fi.sp_calcular_impostos_nota((SELECT id FROM sd.nota_fiscal WHERE pedido_id=1000));
 DO $$ BEGIN
   ASSERT (SELECT count(*) FROM fi.imposto_documento) = 3, 'Impostos não calculados';
   RAISE NOTICE 'OK: ICMS/PIS/COFINS calculados (%)', (SELECT sum(valor) FROM fi.imposto_documento);

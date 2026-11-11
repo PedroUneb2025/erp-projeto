@@ -31,11 +31,13 @@ jobs:
           psql "$DATABASE_URL" -f db/migration/V1__erp_schema_base.sql
           psql "$DATABASE_URL" -f db/migration/V2__usuarios_roles.sql
           psql "$DATABASE_URL" -f db/migration/V3__dados_demo.sql
+          psql "$DATABASE_URL" -f db/migration/V5__obrigacoes_ia_bi.sql
 
       - name: Testes de validação do banco (triggers, procedures, views)
         run: psql "$DATABASE_URL" -f db/migration/V4__validacao.sql 2>&1 | tee validacao.log
       - name: Garantir que todos os testes de banco passaram
         run: grep -q "TODOS OS TESTES PASSARAM" validacao.log
+          grep -q "TODOS OS TESTES V5 PASSARAM" validacao.log
 
       - name: Testes de API
         working-directory: backend

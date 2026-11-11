@@ -77,4 +77,41 @@ test('auditoria registrou eventos', async () => {
   assert.ok(rows.length > 0);
 });
 
+
+test('SPED EFD é gerado pelo endpoint', async () => {
+  const res = await fetch(`${BASE}/api/adv/sped-efd`, { headers: H() });
+  const txt = await res.text();
+  assert.strictEqual(res.status, 200);
+  assert.ok(txt.includes('|0000|'), 'bloco de abertura ausente');
+});
+
+test('eSocial é gerado pelo endpoint', async () => {
+  const res = await fetch(`${BASE}/api/adv/esocial`, { headers: H() });
+  assert.strictEqual(res.status, 200);
+  const txt = await res.text();
+  assert.ok(txt.length > 0);
+});
+
+test('previsão de demanda (IA) retorna materiais com tendência', async () => {
+  const res = await fetch(`${BASE}/api/adv/previsao-demanda`, { headers: H() });
+  assert.strictEqual(res.status, 200);
+  const rows = await res.json();
+  assert.ok(Array.isArray(rows) && rows.length > 0);
+  assert.ok(['ALTA','QUEDA','ESTAVEL'].includes(rows[0].tendencia));
+});
+
+test('auditoria exportável em JSON (formato ELK)', async () => {
+  const res = await fetch(`${BASE}/api/adv/auditoria/json?limite=50`, { headers: H() });
+  const data = await res.json();
+  assert.strictEqual(res.status, 200);
+  assert.ok(Array.isArray(data));
+});
+
+test('CSV de BI para Power BI', async () => {
+  const res = await fetch(`${BASE}/api/adv/bi/vendas-mensais.csv`, { headers: H() });
+  assert.strictEqual(res.status, 200);
+  const txt = await res.text();
+  assert.ok(txt.includes(';'));
+});
+
 test.after(() => { server?.kill(); });

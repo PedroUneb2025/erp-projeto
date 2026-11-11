@@ -10,6 +10,8 @@ const MENUS = [
   { id: 'pedidos', label: 'Pedidos de Venda', perfis: ['SUPERVISOR'] },
   { id: 'estoque', label: 'Estoque', perfis: ['SUPERVISOR'] },
   { id: 'bi', label: 'BI / Relatórios', perfis: ['ANALISTA'] },
+  { id: 'previsao', label: 'Previsão de Demanda (IA)', perfis: ['GERENTE'] },
+  { id: 'fraude', label: 'Auditoria GRC', perfis: ['DIRETOR'] },
 ];
 
 export default function App() {
@@ -64,6 +66,8 @@ export default function App() {
         {menu === 'pedidos' && <Recursos titulo="Pedidos de Venda" endpoint="/api/sd/pedido-venda" />}
         {menu === 'estoque' && <Recursos titulo="Estoque" endpoint="/api/mm/estoque" />}
         {menu === 'bi' && <Recursos titulo="Vendas Mensais (BI)" endpoint="/api/bi/vendas-mensais" />}
+        {menu === 'previsao' && <Recursos titulo="Previsão de Demanda (IA)" endpoint="/api/adv/previsao-demanda" />}
+        {menu === 'fraude' && <Recursos titulo="Suspeitas de Auditoria" endpoint="/api/adv/fraude/auditoria" />}
       </main>
     </div>
   );

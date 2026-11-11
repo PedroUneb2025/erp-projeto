@@ -5,12 +5,7 @@ const { exigir } = require('../middleware/auth');
 const r = express.Router();
 
 r.use(exigir('DBA'));
-const usuario = routerDe(makeCrud(pool, 'sys.usuario',
-  ['id', 'login', 'email', 'ativo'], 'login'), { atualizar: true, remover: true });
-const perfil = routerDe(makeCrud(pool, 'sys.perfil', ['id', 'nome', 'descricao'], 'nome'));
-r.use('/usuario', usuario);
-r.use('/perfil', perfil);
-
+// rotas específicas ANTES dos CRUDs (senão /auditoria casa com /usuario/:id)
 r.get('/auditoria', async (req, res, next) => {
   try {
     const { rows } = await pool.query(
@@ -24,4 +19,9 @@ r.get('/auditoria', async (req, res, next) => {
 r.get('/parametros', async (_req, res, next) => {
   try { res.json((await pool.query('SELECT * FROM sys.parametro')).rows); } catch (e) { next(e); }
 });
+const usuario = routerDe(makeCrud(pool, 'sys.usuario',
+  ['id', 'login', 'email', 'ativo'], 'login'), { atualizar: true, remover: true });
+const perfil = routerDe(makeCrud(pool, 'sys.perfil', ['id', 'nome', 'descricao'], 'nome'));
+r.use('/usuario', usuario);
+r.use('/perfil', perfil);
 module.exports = r;

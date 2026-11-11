@@ -1,0 +1,16 @@
+name: Deploy
+
+on:
+  push: { branches: [main] }
+  workflow_run: { workflows: [CI], types: [completed] }
+
+jobs:
+  deploy-render:
+    # dispara o deploy no Render via API (configure RENDER_HOOK_URL nos secrets)
+    if: ${{ github.event_name == 'push' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger deploy no Render
+        if: ${{ secrets.RENDER_HOOK_URL != '' }}
+        run: curl -sf "${{ secrets.RENDER_HOOK_URL }}" || echo "RENDER_HOOK_URL não configurado — configure para deploy automático"
+        continue-on-error: true

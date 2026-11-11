@@ -1,0 +1,43 @@
+:root { color-scheme: light; }
+* { box-sizing: border-box; margin: 0; }
+body { font-family: system-ui, sans-serif; background: #f4f6f8; color: #17202a; }
+
+.tela-login { display: grid; place-items: center; min-height: 100vh; background: #0b2845; }
+.tela-login form { background: #fff; padding: 2.5rem; border-radius: 12px; width: 320px; display: grid; gap: .8rem; }
+.tela-login h1 { color: #0b2845; font-size: 1.4rem; }
+.tela-login p { color: #5b6b7a; font-size: .85rem; margin-top: -0.6rem; }
+input, button { padding: .65rem .8rem; border-radius: 8px; border: 1px solid #cfdae3; font-size: 1rem; }
+button { background: #0e7c66; color: #fff; border: none; cursor: pointer; font-weight: 600; }
+button:hover { background: #0a5f4e; }
+.tela-login small { color: #8a99a8; text-align: center; }
+
+.app { display: grid; grid-template-columns: 240px 1fr; min-height: 100vh; }
+.sidebar { background: #0b2845; color: #fff; padding: 1.2rem; display: flex; flex-direction: column; }
+.sidebar h1 { font-size: 1.2rem; }
+.sidebar h1 span { display: block; color: #35c2a5; font-size: .75rem; letter-spacing: 2px; }
+.sidebar nav { display: grid; gap: .4rem; margin-top: 1.5rem; flex: 1; }
+.sidebar nav button { background: transparent; text-align: left; padding: .6rem .8rem; border-radius: 6px; color: #cfe2ef; font-weight: 500; }
+.sidebar nav button.ativo, .sidebar nav button:hover { background: #133a5e; color: #fff; }
+.rodape { font-size: .8rem; color: #9fb6c8; display: grid; gap: .5rem; }
+.rodape button { background: #133a5e; font-size: .85rem; }
+
+main { padding: 1.5rem 2rem; overflow: auto; }
+h2 { color: #0b2845; margin-bottom: 1rem; }
+h3 { margin: 1.5rem 0 .8rem; color: #33475b; }
+
+.cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1rem; }
+.card { background: #fff; border-radius: 10px; padding: 1rem 1.2rem; box-shadow: 0 1px 4px rgba(11,40,69,.08); }
+.card small { color: #5b6b7a; }
+.card strong { display: block; font-size: 1.5rem; margin-top: .3rem; color: #0b2845; }
+.card.alerta strong { color: #c0392b; }
+
+.grafico { display: flex; align-items: flex-end; gap: .6rem; background: #fff; padding: 1rem; border-radius: 10px; min-height: 200px; }
+.barra { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; height: 100%; gap: .3rem; }
+.barra .valor { width: 100%; max-width: 48px; background: #0e7c66; border-radius: 4px 4px 0 0; transition: height .5s; }
+.barra small { color: #5b6b7a; font-size: .7rem; }
+
+table { width: 100%; background: #fff; border-radius: 10px; overflow: hidden; border-collapse: collapse; box-shadow: 0 1px 4px rgba(11,40,69,.08); }
+th, td { text-align: left; padding: .6rem .8rem; font-size: .88rem; border-bottom: 1px solid #eef2f5; }
+th { background: #eaf1f5; color: #0b2845; }
+tr:hover td { background: #f7fafb; }
+.erro { background: #fdecea; color: #b03a2e; padding: .7rem 1rem; border-radius: 8px; margin: 1rem 0; }

@@ -1,0 +1,10 @@
+const express = require('express');
+const pool = require('../db/pool');
+const { makeCrud, routerDe } = require('./crud');
+const { exigir } = require('../middleware/auth');
+const r = express.Router();
+r.use(exigir('SUPERVISOR'));
+r.use('/inspecao', routerDe(makeCrud(pool, 'qm.inspecao', ['id','material_id','tipo','lote','aprovado'], 'id'), { atualizar: true }));
+r.use('/nao-conformidade', routerDe(makeCrud(pool, 'qm.nao_conformidade', ['id','inspecao_id','descricao','acao_corretiva','resolvida'], 'id'), { atualizar: true }));
+r.use('/plano-amostragem', routerDe(makeCrud(pool, 'qm.plano_amostragem', ['id','material_id','nivel_inspecao','tamanho_amostra','nai'], 'id')));
+module.exports = r;

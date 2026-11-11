@@ -20,6 +20,7 @@ jobs:
     env:
       DATABASE_URL: postgres://erp:erp@localhost:5432/erp_test
       JWT_SECRET: segredo-de-ci
+      PGOPTIONS: -c client_min_messages=notice
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -28,16 +29,23 @@ jobs:
       - name: Aplicar migrações do banco
         run: |
           sudo apt-get install -y postgresql-client
-          psql "$DATABASE_URL" -f db/migration/V1__erp_schema_base.sql
-          psql "$DATABASE_URL" -f db/migration/V2__usuarios_roles.sql
-          psql "$DATABASE_URL" -f db/migration/V3__dados_demo.sql
-          psql "$DATABASE_URL" -f db/migration/V5__obrigacoes_ia_bi.sql
+          psql "$DATABASE_URL" -v ON_ERROR_STOP=1 -f db/migration/V1__erp_schema_base.sql
+          psql "$DATABASE_URL" -v ON_ERROR_STOP=1 -f db/migration/V2__usuarios_roles.sql
+          psql "$DATABASE_URL" -v ON_ERROR_STOP=1 -f db/migration/V3__dados_demo.sql
 
       - name: Testes de validação do banco (triggers, procedures, views)
         run: psql "$DATABASE_URL" -f db/migration/V4__validacao.sql 2>&1 | tee validacao.log
+
       - name: Garantir que todos os testes de banco passaram
-        run: grep -q "TODOS OS TESTES PASSARAM" validacao.log
-          grep -q "TODOS OS TESTES V5 PASSARAM" validacao.log
+        run: |
+          grep -q "TODOS OS TESTES PASSARAM" validacao.log
+
+      - name: Módulos avançados V5 (SPED/eSocial/IA/fraude)
+        run: psql "$DATABASE_URL" -v ON_ERROR_STOP=1 -f db/migration/V5__obrigacoes_ia_bi.sql 2>&1 | tee v5.log
+
+      - name: Garantir que todos os testes V5 passaram
+        run: |
+          grep -q "TODOS OS TESTES V5 PASSARAM" v5.log
 
       - name: Testes de API
         working-directory: backend

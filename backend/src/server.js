@@ -15,6 +15,7 @@ app.use('/api/auth', require('./modules/auth.routes'));
 
 // Módulos protegidos (JWT + RBAC em cada router)
 app.use('/api/usuarios',   authN, require('./modules/sys.routes'));
+app.use('/api/sys',        authN, require('./modules/sys.routes')); // alias
 app.use('/api/fi',         authN, require('./modules/fi.routes'));
 app.use('/api/rh',         authN, require('./modules/rh.routes'));
 app.use('/api/mm',         authN, require('./modules/mm.routes'));

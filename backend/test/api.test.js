@@ -81,7 +81,7 @@ test('fatura o pedido: procedure completa roda pelo endpoint', async () => {
 });
 
 test('auditoria registrou eventos', async () => {
-  const res = await fetch(`${BASE}/api/sys/auditoria`, { headers: H() });
+  const res = await fetch(`${BASE}/api/usuarios/auditoria`, { headers: H() });
   const rows = await res.json();
   assert.ok(rows.length > 0);
 });

@@ -1,6 +1,9 @@
 -- V3: dados de demonstração para testar o fluxo completo
 INSERT INTO sys.usuario (login, email, senha_hash)
 VALUES ('admin', 'admin@empresa.com', crypt('senha123', gen_salt('bf')));
+INSERT INTO sys.usuario_perfil (usuario_id, perfil_id)
+SELECT u.id, p.id FROM sys.usuario u, sys.perfil p
+ WHERE u.login='admin' AND p.nome='DBA';
 
 -- Clientes e fornecedor
 INSERT INTO sd.cliente (nome, documento, email, limite_credito) VALUES

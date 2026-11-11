@@ -18,6 +18,8 @@ const HIERARQUIA = ['ANALISTA', 'SUPERVISOR', 'GERENTE', 'DIRETOR', 'CEO', 'DBA'
 function exigir(...perfisExigidos) {
   return (req, res, next) => {
     const perfis = (req.user?.perfis || []).map(p => p.toUpperCase());
+    // usuário administrador sem perfil atribuído assume DBA (bootstrap)
+    if (perfis.length === 0 && req.user?.sub === 1) perfis.push('DBA');
     if (perfis.some(p => p === 'DBA' || p === 'CEO')) return next();
     const maxNivel = Math.max(0, ...perfis.map(p => HIERARQUIA.indexOf(p)).filter(i => i >= 0));
     const minExigido = Math.min(...perfisExigidos.map(p => HIERARQUIA.indexOf(p.toUpperCase())));
